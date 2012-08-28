@@ -38,12 +38,12 @@ class Finder:
 			print 'scan net %s, try to find port %s' % (net, port)
 		targets = []
 		scanner = nmap.PortScanner()
-		result	= scanner.scan(net)
+		result	= scanner.scan(net, ports=str(port), arguments='')
 		hosts 	= scanner.all_hosts()
 		if self.debug:
 			print 'found hosts in net: %s' % ' '.join(hosts)
 		for host in hosts:
-			if scanner[host]['tcp'].has_key(port):
+			if scanner[host]['tcp'][8080]['state'] == u'open':
 				targets.append(host)
 		if self.debug:
 			print 'found hosts with port %s: %s' % (port, ' '.join(targets)) 
