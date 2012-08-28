@@ -43,7 +43,7 @@ class Finder:
 		if self.debug:
 			print 'found hosts in net: %s' % ' '.join(hosts)
 		for host in hosts:
-			if scanner[host]['tcp'][8080]['state'] == u'open':
+			if scanner[host]['tcp'][int(port)]['state'] == u'open':
 				targets.append(host)
 		if self.debug:
 			print 'found hosts with port %s: %s' % (port, ' '.join(targets)) 
