@@ -14,8 +14,11 @@ class Finder:
 	def get_nets(self):
 		nets = []
 		ifs = netifaces.interfaces()
-		ifs.remove('lo')
-		ifs.remove('ppp0')
+		try:
+			ifs.remove('lo')
+			ifs.remove('ppp0')
+		except:
+			pass
 		for ifs_name in ifs:
 			try:
 				info = netifaces.ifaddresses(ifs_name)
