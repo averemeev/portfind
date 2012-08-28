@@ -4,14 +4,11 @@
 from nmap import nmap
 import netifaces
 
-FIND_PORT = 8080
-
 class Finder:
 
 	port = 8080
 
-	def __init__(self, port, debug = False):
-		self.port = port
+	def __init__(self, debug = False):
 		self.debug = debug
 
 	def get_nets(self):
@@ -30,7 +27,7 @@ class Finder:
 			except:
 				pass
 		if self.debug:
-			print 'find nets: %s' % ' '.join(nets)
+			print 'found nets: %s' % ' '.join(nets)
 		return nets
 
 	def scan_net(self, net, port):
@@ -43,17 +40,17 @@ class Finder:
 		if self.debug:
 			print 'found hosts in net: %s' % ' '.join(hosts)
 		for host in hosts:
-			if scanner[host]['tcp'].has_key(self.port):
+			if scanner[host]['tcp'].has_key(port):
 				targets.append(host)
 		if self.debug:
-			print 'find hosts with port %s: %s' % (self.port, ' '.join(targets)) 
+			print 'found hosts with port %s: %s' % (port, ' '.join(targets)) 
 		return targets
 
-	def find_targets(self):
+	def find_targets(self, port):
 		nets = self.get_nets()
 		all_targets = []
 		for net in nets:
-			net_targets = self.scan_net(net, self.port)
+			net_targets = self.scan_net(net, port)
 			all_targets += net_targets
 		return all_targets
 
@@ -73,8 +70,8 @@ def main():
 	except:
 		pass
 
-	finder = Finder(port, debug)
-	targets = finder.find_targets()
+	finder = Finder(debug)
+	targets = finder.find_targets(port)
 	for target in targets:
 		print target
 
